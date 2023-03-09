@@ -7,7 +7,7 @@ class Player extends SpriteAnimationComponent with KeyboardHandler, HasGameRef {
   Player() : super(size: Vector2.all(50));
 
   // for Character
-  final double _animationSpeed = 1.15;
+  final double _animationSpeed = 0.15;
 
   // Speed
   final Vector2 velocity = Vector2.zero();
@@ -27,6 +27,7 @@ class Player extends SpriteAnimationComponent with KeyboardHandler, HasGameRef {
   Future<void> onLoad() async {
     super.onLoad();
     await _loadAnimations();
+
     animation = _standingAnimation;
   }
 
@@ -85,23 +86,40 @@ class Player extends SpriteAnimationComponent with KeyboardHandler, HasGameRef {
   bool onKeyEvent(RawKeyEvent event, Set<LogicalKeyboardKey> keysPressed) {
     horizontalDirection = 0;
     verticalDirection = 0;
+    bool keyPressed = false;
 
     // 상 화살표가 눌린 경우 verticalDirection +1
-    verticalDirection += (keysPressed.contains(LogicalKeyboardKey.arrowUp))
-        ? -1
-        : 0;
+    if(keysPressed.contains(LogicalKeyboardKey.arrowUp)){
+      verticalDirection -= 1;
+      animation = _runUpAnimation;
+      keyPressed = true;
+    }
+
     // 하 화살표가 눌린 경우 verticalDirection -1
-    verticalDirection += (keysPressed.contains(LogicalKeyboardKey.arrowDown))
-        ? 1
-        : 0;
+    if(keysPressed.contains(LogicalKeyboardKey.arrowDown)){
+      verticalDirection += 1;
+      animation = _runDownAnimation;
+      keyPressed = true;
+    }
+
     // 좌 화살표가 눌린 경우 horizontalDirection -1
-    horizontalDirection += (keysPressed.contains(LogicalKeyboardKey.arrowLeft))
-        ? -1
-        : 0;
+    if(keysPressed.contains(LogicalKeyboardKey.arrowLeft)){
+      horizontalDirection -= 1;
+      animation = _runLeftAnimation;
+      keyPressed = true;
+    }
+
     // 우 화살표가 눌린 경우 horizontalDirection +1
-    horizontalDirection += (keysPressed.contains(LogicalKeyboardKey.arrowRight))
-        ? 1
-        : 0;
+    if(keysPressed.contains(LogicalKeyboardKey.arrowRight)){
+      horizontalDirection += 1;
+      animation = _runRightAnimation;
+      keyPressed = true;
+    }
+
+    // 키가 눌리지 않았을 때
+    if (!keyPressed) {
+      animation = _standingAnimation;
+    }
 
     return true;
   }
