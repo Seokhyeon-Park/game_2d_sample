@@ -1,9 +1,9 @@
 import 'package:flame/game.dart';
 import 'package:flame/events.dart';
-import 'package:flutter/material.dart';
 
 import 'components/player/player.dart';
 
+// FlameGame Extends
 class MainGame extends FlameGame with HasKeyboardHandlerComponents {
   final Player _player = Player();
 

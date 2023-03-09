@@ -6,33 +6,39 @@ import 'package:flutter/services.dart';
 class Player extends SpriteAnimationComponent with KeyboardHandler, HasGameRef {
   Player() : super(size: Vector2.all(50));
 
-  // for Character
+  // 케릭터 에니메이션에 대한 속도
   final double _animationSpeed = 0.15;
 
-  // Speed
+  // 케릭터 이동에 대한 속도
   final Vector2 velocity = Vector2.zero();
   final double moveSpeed = 300;
 
-  // 방향
+  // 케릭터의 이동 방향
   int horizontalDirection = 0;
   int verticalDirection = 0;
 
+  // 케릭터 이동 방향에 따른 에니메이션
   late final SpriteAnimation _runDownAnimation;
   late final SpriteAnimation _runLeftAnimation;
   late final SpriteAnimation _runUpAnimation;
   late final SpriteAnimation _runRightAnimation;
   late final SpriteAnimation _standingAnimation;
 
+  // Load 됐을 때,
   @override
   Future<void> onLoad() async {
     super.onLoad();
+    // 케릭터 에니메이션 설정
     await _loadAnimations();
 
+    // 케릭터 생성 후 스탠딩 모션을 default로
     animation = _standingAnimation;
   }
 
+  // Update 될 때,
   @override
   void update(double dt) {
+    // x, y 축 이동속도 계산
     velocity.x = horizontalDirection * moveSpeed;
     velocity.y = verticalDirection * moveSpeed;
 
@@ -47,33 +53,40 @@ class Player extends SpriteAnimationComponent with KeyboardHandler, HasGameRef {
     final game = FlameGame();
     final spriteSheet = SpriteSheet(
       image: await game.images.load('player_spritesheet.png'),
+      // srcSize : SpriteSheet에서 각 스프라이트의 크기를 지정하는 속성
+      // player_spritesheet.png 이미지의 각 스프라이트가 29x32로 자르도록 지정
       srcSize: Vector2(29.0, 32.0),
     );
 
-    _runDownAnimation = spriteSheet.createAnimation(
-      row: 0,
-      stepTime: _animationSpeed,
-      to: 4,
-    );
-
-    _runLeftAnimation = spriteSheet.createAnimation(
-      row: 1,
-      stepTime: _animationSpeed,
-      to: 4,
-    );
-
+    // 위로 움직일 때의 케릭터 에니메이션
     _runUpAnimation = spriteSheet.createAnimation(
       row: 2,
       stepTime: _animationSpeed,
       to: 4,
     );
 
+    // 아래로 움직일 때의 케릭터 에니메이션
+    _runDownAnimation = spriteSheet.createAnimation(
+      row: 0,
+      stepTime: _animationSpeed,
+      to: 4,
+    );
+
+    // 왼쪽으로 움직일 때의 케릭터 에니메이션
+    _runLeftAnimation = spriteSheet.createAnimation(
+      row: 1,
+      stepTime: _animationSpeed,
+      to: 4,
+    );
+
+    // 오른쪽으로 움직일 때의 케릭터 에니메이션
     _runRightAnimation = spriteSheet.createAnimation(
       row: 3,
       stepTime: _animationSpeed,
       to: 4,
     );
 
+    // 가만히 서있을 때의 케릭터 에니메이션
     _standingAnimation = spriteSheet.createAnimation(
       row: 0,
       stepTime: _animationSpeed,
@@ -88,6 +101,7 @@ class Player extends SpriteAnimationComponent with KeyboardHandler, HasGameRef {
     verticalDirection = 0;
     bool keyPressed = false;
 
+    // 움직임에 따라 에니메이션 변경
     // 상 화살표가 눌린 경우 verticalDirection +1
     if(keysPressed.contains(LogicalKeyboardKey.arrowUp)){
       verticalDirection -= 1;
@@ -118,6 +132,8 @@ class Player extends SpriteAnimationComponent with KeyboardHandler, HasGameRef {
 
     // 키가 눌리지 않았을 때
     if (!keyPressed) {
+      horizontalDirection = 0;
+      verticalDirection = 0;
       animation = _standingAnimation;
     }
 
