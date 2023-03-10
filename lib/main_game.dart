@@ -2,7 +2,6 @@ import 'dart:ui';
 
 import 'package:flame/game.dart';
 import 'package:flame/events.dart';
-import 'package:flame/geometry.dart';
 
 import 'components/player/player.dart';
 import 'components/map/world.dart';
