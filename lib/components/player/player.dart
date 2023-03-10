@@ -4,7 +4,7 @@ import 'package:flame/game.dart';
 import 'package:flutter/services.dart';
 
 class Player extends SpriteAnimationComponent with KeyboardHandler, HasGameRef {
-  Player() : super(size: Vector2.all(50));
+  Player() : super(size: Vector2.all(50), anchor: Anchor.center);
 
   // 케릭터 에니메이션에 대한 속도
   final double _animationSpeed = 0.15;

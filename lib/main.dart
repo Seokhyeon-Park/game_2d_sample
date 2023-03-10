@@ -8,7 +8,7 @@ void main() {
   runApp(
     const MaterialApp(
       home: Scaffold(
-        backgroundColor: Color.fromRGBO(0, 0, 0, 1),
+        backgroundColor: Colors.green,
         body: Stack(
           children: [
             MainGamePage(),
