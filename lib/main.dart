@@ -54,6 +54,15 @@ class CreateAccount extends StatelessWidget {
               Expanded(
                 child: TextField(
                   decoration: InputDecoration(
+                    suffixIcon: IconButton(
+                      onPressed: () {
+                        Navigator.pop(context);
+                      },
+                      icon: const Icon(
+                        Icons.check,
+                        color: Colors.white,
+                      ),
+                    ),
                     hintText: 'Your name?',
                     hintStyle: const TextStyle(color: Colors.white),
                     enabledBorder: OutlineInputBorder(
@@ -65,15 +74,6 @@ class CreateAccount extends StatelessWidget {
                       borderRadius: BorderRadius.circular(8.0),
                     ),
                   ),
-                ),
-              ),
-              IconButton(
-                onPressed: () {
-                  Navigator.pop(context);
-                },
-                icon: const Icon(
-                  Icons.check_circle_outline_rounded,
-                  color: Colors.grey,
                 ),
               ),
             ],
