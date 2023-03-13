@@ -13,12 +13,8 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      initialRoute: '/createAccount',
-      routes: {
-        '/createAccount': (context) => const CreateAccount(),
-      },
-      home: const MainGamePage(),
+    return const MaterialApp(
+      home: MainGamePage(),
     );
   }
 }
@@ -30,13 +26,37 @@ class MainGamePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: GameWidget(game: MainGame()),
+      body: Stack(
+        children: [
+          GameWidget(game: MainGame()),
+          Positioned(
+            top: 16.0,
+            right: 16.0,
+            child: FloatingActionButton(
+              onPressed: () async {
+                final result = await Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => CreateAccount()),
+                );
+                if(result != null) {
+                  final game = MainGame(); // GameWidget 대신 MainGame 클래스 사용
+                  game.setPlayerName(result); // MainGame 클래스의 _playerName 변수 업데이트
+                }
+              },
+              backgroundColor: Colors.black.withOpacity(0.15),
+              child: const Icon(Icons.edit),
+            ),
+          ),
+        ],
+      ),
     );
   }
 }
 
 class CreateAccount extends StatelessWidget {
-  const CreateAccount({Key? key}) : super(key: key);
+  final _nameController = TextEditingController(); // 컨트롤러 생성
+
+  CreateAccount({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -53,10 +73,11 @@ class CreateAccount extends StatelessWidget {
             children: [
               Expanded(
                 child: TextField(
+                  controller: _nameController, // 컨트롤러 등록
                   decoration: InputDecoration(
                     suffixIcon: IconButton(
                       onPressed: () {
-                        Navigator.pop(context);
+                        Navigator.pop(context, _nameController.text);
                       },
                       icon: const Icon(
                         Icons.check,

@@ -35,4 +35,8 @@ class MainGame extends FlameGame with HasKeyboardHandlerComponents {
       ),
     );
   }
+
+  void setPlayerName(String name) {
+    _player.setName(name);
+  }
 }

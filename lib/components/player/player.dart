@@ -4,7 +4,11 @@ import 'package:flame/game.dart';
 import 'package:flutter/services.dart';
 
 class Player extends SpriteAnimationComponent with KeyboardHandler, HasGameRef {
-  Player() : super(size: Vector2.all(50), anchor: Anchor.center);
+  Player()
+    : super(
+      size: Vector2.all(50),
+      anchor: Anchor.center
+    );
 
   // 케릭터 에니메이션에 대한 속도
   final double _animationSpeed = 0.15;
@@ -24,6 +28,9 @@ class Player extends SpriteAnimationComponent with KeyboardHandler, HasGameRef {
   late final SpriteAnimation _runRightAnimation;
   late final SpriteAnimation _standingAnimation;
 
+  // 케릭터 이름
+  late TextComponent _nameComponent;
+
   // Load 됐을 때,
   @override
   Future<void> onLoad() async {
@@ -33,6 +40,13 @@ class Player extends SpriteAnimationComponent with KeyboardHandler, HasGameRef {
 
     // 케릭터 생성 후 스탠딩 모션을 default로
     animation = _standingAnimation;
+    
+    // 이름생성
+    _nameComponent = TextComponent(text: 'Player')
+      ..anchor = Anchor.topCenter
+      ..x = size.x / 2
+      ..y = -35;
+    add(_nameComponent);
   }
 
   // Update 될 때,
@@ -138,5 +152,8 @@ class Player extends SpriteAnimationComponent with KeyboardHandler, HasGameRef {
     }
 
     return true;
+  }
+  void setName(String name) {
+    _nameComponent.text = name;
   }
 }
