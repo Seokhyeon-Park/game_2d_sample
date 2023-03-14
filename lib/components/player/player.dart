@@ -35,18 +35,19 @@ class Player extends SpriteAnimationComponent with KeyboardHandler, HasGameRef {
   @override
   Future<void> onLoad() async {
     super.onLoad();
-    // 케릭터 에니메이션 설정
-    await _loadAnimations();
 
-    // 케릭터 생성 후 스탠딩 모션을 default로
-    animation = _standingAnimation;
-    
     // 이름생성
     _nameComponent = TextComponent(text: 'Player')
       ..anchor = Anchor.topCenter
       ..x = size.x / 2
       ..y = -35;
     add(_nameComponent);
+
+    // 케릭터 에니메이션 설정
+    await _loadAnimations();
+
+    // 케릭터 생성 후 스탠딩 모션을 default로
+    animation = _standingAnimation;
   }
 
   // Update 될 때,
@@ -153,6 +154,7 @@ class Player extends SpriteAnimationComponent with KeyboardHandler, HasGameRef {
 
     return true;
   }
+
   void setName(String name) {
     _nameComponent.text = name;
   }

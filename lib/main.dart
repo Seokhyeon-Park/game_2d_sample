@@ -20,9 +20,14 @@ class MyApp extends StatelessWidget {
 }
 
 
-class MainGamePage extends StatelessWidget {
+class MainGamePage extends StatefulWidget {
   const MainGamePage({Key? key}) : super(key: key);
 
+  @override
+  State<MainGamePage> createState() => _MainGamePageState();
+}
+
+class _MainGamePageState extends State<MainGamePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
